@@ -97,7 +97,10 @@ WHERE Population BETWEEN 500 AND 600;
 
 SELECT name, CountryCode, Population
 FROM city
-WHERE CountryCode = (SELECT CountryCode from city WHERE Population = 122199);
+WHERE CountryCode = (
+    SELECT CountryCode
+    FROM city
+    WHERE Population = 122199);
 
 # 16: What names of the cities are in the same country as the city with a population of 122199 (excluding the that city itself)
 
@@ -112,20 +115,20 @@ SELECT city.name
 FROM city 
 INNER JOIN country 
 	ON city.CountryCode = country.Code 
-    WHERE country.Capital = (SELECT ID from city WHERE name = 'Luanda');
+WHERE country.Capital = (SELECT ID from city WHERE name = 'Luanda');
     
 # 18: What are the names of the capital cities in countries in the same region as the city named Yaren
 
 SELECT city.name
 FROM city
 INNER JOIN country
-	ON city.CountryCode = country.Code
-WHERE region =
-	(SELECT region
+    ON city.CountryCode = country.Code
+WHERE region = (
+    SELECT region
     FROM city
     INNER JOIN country
-		ON city.CountryCode = country.Code
-	WHERE city.name = "Yaren")
+        ON city.CountryCode = country.Code
+    WHERE city.name = "Yaren")
 AND capital = id;
 
 # 19: What unique languages are spoken in the countries in the same region as the city named Riga
@@ -133,13 +136,13 @@ AND capital = id;
 SELECT DISTINCT language
 FROM countrylanguage
 INNER JOIN country
-	ON countrylanguage.CountryCode = country.Code
-WHERE region = 
-	(SELECT region 
-    FROM city 
-    INNER JOIN country 
-		ON city.CountryCode = country.Code 
-	WHERE city.name = "Riga");
+    ON countrylanguage.CountryCode = country.Code
+WHERE region = (
+    SELECT region
+    FROM city
+    INNER JOIN country
+        ON city.CountryCode = country.Code
+    WHERE city.name = "Riga");
   
 # 20: Get the name of the most populous city
 
